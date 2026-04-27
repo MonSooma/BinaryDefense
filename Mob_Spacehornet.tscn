@@ -1,0 +1,87 @@
+[gd_scene load_steps=15 format=3 uid="uid://cvv0aqt45rwa2"]
+
+[ext_resource type="Texture2D" uid="uid://ftfnyilsfv6l" path="res://Images/New Piskel-1.png.png" id="1_7d165"]
+[ext_resource type="Script" path="res://mob_spacehornet.gd" id="1_vq854"]
+[ext_resource type="Texture2D" uid="uid://cj36r1sx2x0ys" path="res://2.png" id="2_ccvsp"]
+[ext_resource type="Texture2D" uid="uid://bit4b8pghl1cr" path="res://Images/New Piskel-2.png.png" id="2_td5pr"]
+[ext_resource type="Texture2D" uid="uid://blurdhy1e3coo" path="res://explosion3.png" id="3_s3eoc"]
+[ext_resource type="Texture2D" uid="uid://wscq6ucywmjv" path="res://Images/New Piskel-3.png.png" id="3_up6rj"]
+[ext_resource type="Texture2D" uid="uid://bw1w0xnfx1gge" path="res://explosion4.png" id="4_0hiey"]
+[ext_resource type="Texture2D" uid="uid://by5s6txg2yndf" path="res://Images/New Piskel-4.png.png" id="4_yh677"]
+[ext_resource type="Texture2D" uid="uid://bghkpouc1c1js" path="res://explosion1.png" id="5_bmymj"]
+[ext_resource type="Texture2D" uid="uid://bckepqcpwh1wm" path="res://explosion5.png" id="6_f0r4u"]
+[ext_resource type="FontFile" uid="uid://dqkva4rms56wm" path="res://fonts/vaticanus-font/Vaticanus-G3yVG.ttf" id="6_t0tud"]
+[ext_resource type="Texture2D" uid="uid://ek7biqbpx1xi" path="res://explosion6.png" id="7_whwdt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8xjw8"]
+size = Vector2(64, 144)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oe6xn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ccvsp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_s3eoc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_0hiey")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_bmymj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_f0r4u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_whwdt")
+}],
+"loop": false,
+"name": &"death",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_7d165")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_td5pr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_up6rj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_yh677")
+}],
+"loop": true,
+"name": &"hornet",
+"speed": 10.0
+}]
+
+[node name="Node2D" type="CharacterBody2D"]
+script = ExtResource("1_vq854")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_8xjw8")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-0.125, 3.625)
+scale = Vector2(1.05556, 1.03704)
+sprite_frames = SubResource("SpriteFrames_oe6xn")
+animation = &"hornet"
+
+[node name="Label" type="Label" parent="."]
+offset_left = -28.125
+offset_top = 7.62499
+offset_right = 4.87499
+offset_bottom = 29.625
+scale = Vector2(1.7, 1.7)
+theme_override_fonts/font = ExtResource("6_t0tud")
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

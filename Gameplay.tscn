@@ -1,0 +1,134 @@
+[gd_scene load_steps=11 format=3 uid="uid://bhvm8anyqo5w"]
+
+[ext_resource type="Script" path="res://Gameplay.gd" id="1_lmnst"]
+[ext_resource type="PackedScene" uid="uid://b43t1cacpwajx" path="res://binarysystem.tscn" id="2_y6m0k"]
+[ext_resource type="PackedScene" uid="uid://cvv0aqt45rwa2" path="res://Mob_Spacehornet.tscn" id="2_yid6e"]
+[ext_resource type="Texture2D" uid="uid://bhp60i7wweg28" path="res://Images/backdropbd.jpg" id="4_1lqeu"]
+[ext_resource type="AudioStream" uid="uid://c6y753n4adn17" path="res://Undertale Hit Sound Effect.mp3" id="5_n3dxs"]
+[ext_resource type="AudioStream" uid="uid://d4hf7k205j082" path="res://Bad alert sound rimworld.mp3" id="5_ugnsb"]
+[ext_resource type="FontFile" uid="uid://jhy0lhn7boem" path="res://fonts/edit-undo/editundo.ttf" id="6_durut"]
+[ext_resource type="AudioStream" uid="uid://bwe355o5gq3f1" path="res://Rec Room OST  Jumbotron - The Fall Of Jumbotron.mp3" id="8_8dfm7"]
+[ext_resource type="FontFile" uid="uid://dqkva4rms56wm" path="res://fonts/vaticanus-font/Vaticanus-G3yVG.ttf" id="9_3iq4j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mnetl"]
+size = Vector2(720, 225)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_lmnst")
+hornet_scene = ExtResource("2_yid6e")
+
+[node name="PANEL" parent="." instance=ExtResource("2_y6m0k")]
+
+[node name="spawntimer" type="Timer" parent="."]
+wait_time = 6.5
+
+[node name="LaneL" type="Node2D" parent="."]
+position = Vector2(80, -64)
+
+[node name="LaneR" type="Node2D" parent="."]
+position = Vector2(640, -64)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(360, 1040.5)
+shape = SubResource("RectangleShape2D_mnetl")
+
+[node name="StartAlarm" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_ugnsb")
+
+[node name="HornetDS" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_n3dxs")
+volume_db = -4.0
+
+[node name="GAMEOVER" type="Label" parent="."]
+modulate = Color(0.652227, 2.76752e-06, 4.33177e-07, 1)
+offset_right = 720.0
+offset_bottom = 928.0
+theme_override_fonts/font = ExtResource("6_durut")
+theme_override_font_sizes/font_size = 120
+text = "GAME OVER!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GAMEOVER2" type="Label" parent="."]
+modulate = Color(1, 0, 0.231373, 1)
+offset_top = -8.0
+offset_right = 720.0
+offset_bottom = 920.0
+theme_override_fonts/font = ExtResource("6_durut")
+theme_override_font_sizes/font_size = 120
+text = "GAME OVER!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="scoreL" type="Label" parent="."]
+top_level = true
+offset_left = 288.0
+offset_top = 24.0
+offset_right = 418.0
+offset_bottom = 80.0
+theme_override_colors/font_color = Color(1, 0.509804, 0, 1)
+theme_override_fonts/font = ExtResource("6_durut")
+theme_override_font_sizes/font_size = 40
+text = "SCORE: "
+
+[node name="score" type="Label" parent="."]
+top_level = true
+offset_left = 408.0
+offset_top = 24.0
+offset_right = 538.0
+offset_bottom = 80.0
+theme_override_colors/font_color = Color(1, 0.509804, 0, 1)
+theme_override_fonts/font = ExtResource("6_durut")
+theme_override_font_sizes/font_size = 40
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+show_behind_parent = true
+repeat_size = Vector2(1600, 0)
+autoscroll = Vector2(20, 0)
+repeat_times = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
+show_behind_parent = true
+position = Vector2(812, 464)
+scale = Vector2(0.845833, 0.859259)
+texture = ExtResource("4_1lqeu")
+
+[node name="musictimer" type="Timer" parent="."]
+wait_time = 6.5
+one_shot = true
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_8dfm7")
+volume_db = -3.0
+parameters/looping = true
+
+[node name="NewGame" type="Button" parent="."]
+top_level = true
+offset_left = 168.0
+offset_top = 608.0
+offset_right = 552.0
+offset_bottom = 712.0
+theme_override_fonts/font = ExtResource("9_3iq4j")
+theme_override_font_sizes/font_size = 50
+text = "NEW GAME"
+
+[node name="MainMenu" type="Button" parent="."]
+top_level = true
+offset_left = 168.0
+offset_top = 752.0
+offset_right = 551.0
+offset_bottom = 856.0
+theme_override_fonts/font = ExtResource("9_3iq4j")
+theme_override_font_sizes/font_size = 50
+text = "RETURN TO MENU"
+
+[node name="Deathtimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="spawntimer" to="." method="_on_spawntimer_timeout"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="musictimer" to="." method="_on_musictimer_timeout"]
+[connection signal="pressed" from="NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="timeout" from="Deathtimer" to="." method="_on_deathtimer_timeout"]
